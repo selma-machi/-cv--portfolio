@@ -3,140 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salma Machi | Portfolio 3D</title>
+    <title>Salma Machi | Portfolio 3D Pro</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         :root {
-            --bg: #ffffff; --text: #1a1a1a; --accent: #3498db; --glass: rgba(255, 255, 255, 0.8);
+            --bg: #ffffff;
+            --text: #1a1a1a;
+            --accent: #3498db;
+            --card: rgba(255, 255, 255, 0.8);
         }
         [data-theme="dark"] {
-            --bg: #0b0e14; --text: #f0f0f0; --accent: #00d2ff; --glass: rgba(20, 24, 30, 0.8);
+            --bg: #0b0e14;
+            --text: #f0f0f0;
+            --accent: #00d2ff;
+            --card: rgba(20, 24, 30, 0.9);
         }
-        body { 
-            margin: 0; padding: 0; background: var(--bg); color: var(--text); 
-            font-family: 'Segoe UI', sans-serif; transition: 0.3s; overflow-x: hidden;
+        body, html {
+            margin: 0; padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            transition: all 0.4s ease;
+            overflow-x: hidden;
         }
-        #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+        #canvas-bg { position: fixed; top: 0; left: 0; z-index: -1; }
         
-        /* Interface */
-        .ui-layer { position: relative; z-index: 10; max-width: 800px; margin: auto; padding: 20px; }
-        .controls { position: fixed; top: 20px; right: 20px; display: flex; gap: 10px; z-index: 100; }
-        
-        .card { 
-            background: var(--glass); backdrop-filter: blur(10px); 
-            padding: 30px; border-radius: 15px; box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            margin-top: 50px; border: 1px solid rgba(255,255,255,0.1);
+        /* Navigation & Controls */
+        .ui-controls {
+            position: fixed; top: 20px; right: 20px;
+            display: flex; gap: 10px; z-index: 100;
         }
-        
-        button, select { 
-            padding: 8px 15px; border-radius: 20px; border: 1px solid var(--accent);
-            background: var(--glass); color: var(--text); cursor: pointer;
+        button, select {
+            padding: 10px 15px; border-radius: 25px; border: 1px solid var(--accent);
+            background: var(--card); color: var(--text); cursor: pointer;
+            backdrop-filter: blur(5px); font-weight: bold;
         }
 
+        /* Portfolio Card */
+        .cv-container {
+            max-width: 800px; margin: 100px auto;
+            padding: 40px; background: var(--card);
+            border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1);
+        }
         .rtl { direction: rtl; text-align: right; }
-        .badge { 
-            display: inline-block; background: var(--accent); color: white; 
-            padding: 5px 12px; border-radius: 15px; margin: 3px; font-size: 0.85em; 
-        }
-        h1 { font-size: 2.5em; color: var(--accent); margin: 0; }
-    </style>
-</head>
-<body data-theme="light">
-
-    <canvas id="bg-canvas"></canvas>
-
-    <div class="controls">
-        <select id="langPicker">
-            <option value="fr">Français</option>
-            <option value="en">English</option>
-            <option value="ar">العربية</option>
-        </select>
-        <button id="modeBtn">🌙 / ☀️</button>
-    </div>
-
-    <div class="ui-layer" id="app">
-        </div>
-
-    <script>
-        // --- 1. DONNÉES DU CV (Traductions) ---
-        const data = {
-            fr: {
-                dir: "ltr",
-                name: "Salma Machi",
-                title: "Étudiante en Marketing Digital et Commercial",
-                bio: "Étudiante motivée, passionnée par l'e-commerce et l'analyse de données.",
-                sections: ["Formation", "Expérience", "Compétences"],
-                edu: "DUT en Marketing Digital - EST Salé",
-                exp: "Stage Comptabilité chez CM3, Casablanca",
-                skills: ["Canva", "Excel", "HTML", "Gantt Project", "BI"]
-            },
-            en: {
-                dir: "ltr",
-                name: "Salma Machi",
-                title: "Digital Marketing & Sales Student",
-                bio: "Motivated student, passionate about e-commerce and data analysis.",
-                sections: ["Education", "Experience", "Skills"],
-                edu: "Digital Marketing Degree - EST Salé",
-                exp: "Accounting Intern at CM3, Casablanca",
-                skills: ["Canva", "Excel", "HTML", "Gantt Project", "BI"]
-            },
-            ar: {
-                dir: "rtl",
-                name: "سلمى ماشي",
-                title: "طالبة في التسويق الرقمي والتجاري",
-                bio: "طالبة طموحة، شغوفة بالتجارة الإلكترونية وتحليل البيانات.",
-                sections: ["التكوين", "الخبرة", "المهارات"],
-                edu: "دبلوم في التسويق الرقمي - EST سلا",
-                exp: "تدريب في المحاسبة بشركة CM3، الدار البيضاء",
-                skills: ["كانفا", "إكسل", "HTML", "مشروع غانت", "BI"]
-            }
-        };
-
-        // --- 2. LOGIQUE DE L'INTERFACE ---
-        const app = document.getElementById('app');
-        const langPicker = document.getElementById('langPicker');
-
-        function render(lang) {
-            const cv = data[lang];
-            document.body.className = cv.dir === 'rtl' ? 'rtl' : '';
-            app.innerHTML = `
-                <div class="card">
-                    <h1>${cv.name}</h1>
-                    <p><strong>${cv.title}</strong></p>
-                    <p>${cv.bio}</p>
-                    <hr>
-                    <h3>${cv.sections[0]}</h3> <p>${cv.edu}</p>
-                    <h3>${cv.sections[1]}</h3> <p>${cv.exp}</p>
-                    <h3>${cv.sections[2]}</h3>
-                    <div>${cv.skills.map(s => `<span class="badge">${s}</span>`).join('')}</div>
-                </div>
-            `;
-        }
-
-        langPicker.onchange = (e) => render(e.target.value);
-        document.getElementById('modeBtn').onclick = () => {
-            const theme = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-            document.body.setAttribute('data-theme', theme);
-        };
-
-        // --- 3. SCÈNE 3D (THREE.JS) ---
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-
-        // Création de "particules" (Gamification/Awwwards style)
-        const geometry = new THREE.BufferGeometry();
-        const vertices = [];
-        for (let i = 0; i < 2000; i++) {
-            vertices.push(THREE.MathUtils.randFloatSpread(100), THREE.MathUtils.randFloatSpread(100), THREE.MathUtils.randFloatSpread(100));
-        }
-        geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-        const particles = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0x3498db, size: 0.1 }));
-        scene.add(particles);
-
-        camera.position.z = 20;
-
-        function animate() {
-            requestAnimationFrame(animate);
-            particles.rotation.y += 0.
+        h1 { font-size: 3.5em; margin: 0; color: var(--accent); }
+        .tagline { font-size: 1.3em; margin-bottom: 20px; opacity: 0.9; }
+        h2 { border-bottom: 2px solid var(--accent); padding-bottom: 5px; margin-top: 30px; }
+        
+        .badge {
+            display: inline-block; padding: 6px 14px;
+            background: var(--accent); color: white;
+            border-radius: 20px; margin: 4px; font-
