@@ -2,125 +2,225 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Portfolio - Data Science & BI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV - Salma Machi</title>
     <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --text-color: #333;
+            --light-bg: #f4f7f6;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
             margin: 0;
-            padding: 0;
+            padding: 20px;
         }
 
         .container {
-            width: 80%;
+            max-width: 900px;
             margin: auto;
-            background: white;
-            padding: 30px;
+            background: #fff;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 8px;
         }
 
-        h1, h2 {
-            color: #2c3e50;
+        header {
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            text-align: center;
         }
 
-        p {
-            line-height: 1.6;
+        h1 {
+            margin: 0;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: var(--accent-color);
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+
+        .contact-info a {
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+
+        section {
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-left: 5px solid var(--accent-color);
+            padding-left: 10px;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            background: #f9f9f9;
+        }
+
+        .experience-item, .education-item {
+            margin-bottom: 15px;
+        }
+
+        .job-title {
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .date {
+            float: right;
+            font-style: italic;
+            color: #666;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-category strong {
+            display: block;
+            color: var(--accent-color);
+            margin-bottom: 5px;
         }
 
         ul {
-            list-style-type: square;
+            padding-left: 20px;
+            margin: 5px 0;
         }
 
-        a {
-            color: #2980b9;
+        .online-presence a {
+            display: inline-block;
+            margin-right: 15px;
+            color: var(--accent-color);
             text-decoration: none;
             font-weight: bold;
         }
 
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .section {
-            margin-bottom: 30px;
-        }
-
-        .footer {
-            text-align: center;
-            color: gray;
-            margin-top: 40px;
-            font-size: 14px;
+        @media (max-width: 600px) {
+            .date {
+                float: none;
+                display: block;
+                margin-top: 5px;
+            }
+            .container {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-
-        <!-- Header -->
-        <section class="section">
-            <h1>MACHI SALMA</h1>
-            <p><strong>Étudiante en Data Science & Business Intelligence</strong></p>
-            <p>Email : salma@email.com</p>
-        </section>
-
-        <!-- About -->
-        <section class="section">
-            <h2>À propos de moi</h2>
-            <p>
-                Étudiante passionnée par l’analyse de données, la Business Intelligence
-                et l’intelligence artificielle. Je m’intéresse à la transformation des
-                données en informations utiles pour la prise de décision.
-            </p>
-        </section>
-
-        <!-- Skills -->
-        <section class="section">
-            <h2>Compétences</h2>
-            <ul>
-                <li>Python (Pandas, NumPy, Matplotlib)</li>
-                <li>Data Science & Machine Learning</li>
-                <li>Business Intelligence</li>
-                <li>SQL</li>
-                <li>Power BI / Tableau</li>
-                <li>Git & GitHub</li>
-            </ul>
-        </section>
-
-        <!-- Projects -->
-        <section class="section">
-            <h2>Projets</h2>
-            <ul>
-                <li>
-                    <strong>Mini-projet Data Science :</strong>
-                    <a href="https://github.com/TON-USERNAME/churn-prediction-project" target="_blank">
-                        Prédiction du Churn Client
-                    </a>
-                </li>
-            </ul>
-        </section>
-
-        <!-- Links -->
-        <section class="section">
-            <h2>Liens utiles</h2>
-            <ul>
-                <li>
-                    <a href="https://github.com/TON-USERNAME" target="_blank">GitHub</a>
-                </li>
-                <li>
-                    <a href="https://www.kaggle.com/TON-USERNAME" target="_blank">Kaggle</a>
-                </li>
-                <li>
-                    <a href="CV_SALMA.pdf" target="_blank">Télécharger mon CV (PDF)</a>
-                </li>
-            </ul>
-        </section>
-
-        <!-- Footer -->
-        <div class="footer">
-            © 2026 - Portfolio Data Science & BI
+<div class="container">
+    <header>
+        <h1>Salma Machi</h1>
+        <div class="subtitle">Étudiante en Marketing Digital et Commercial</div>
+        <div class="contact-info">
+            <span>📍 CASA, MAROC</span>
+            <span>📞 0648206164</span>
+            <span>✉️ <a href="mailto:machisalma1234@gmail.com">machisalma1234@gmail.com</a></span>
         </div>
+    </header>
 
-    </div>
+    <section id="profil">
+        <h2>Profil Professionnel</h2>
+        <p>
+            Étudiante dynamique spécialisée en marketing digital et commercial. Je combine des compétences analytiques 
+            avec une maîtrise des outils de création et de gestion de projet pour accompagner le développement commercial 
+            et la visibilité en ligne des entreprises.
+        </p>
+    </section>
+
+    <section id="formation">
+        <h2>Formation</h2>
+        <div class="education-item">
+            <span class="job-title">Diplôme Universitaire de Technologie (DUT) Marketing Digital</span>
+            <span class="date">En cours</span>
+        </div>
+    </section>
+
+    <section id="experience">
+        <h2>Expérience Professionnelle</h2>
+        <div class="experience-item">
+            <span class="job-title">Stagiaire en COMPTABILITE (Stage d'initialisation)</span>
+            <span class="date">1 mois</span>
+            <p><strong>Entreprise :</strong> CM3</p>
+            <ul>
+                <li>Apprentissage des bases de la gestion comptable.</li>
+                <li>Organisation administrative et saisie de données.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="competences">
+        <h2>Compétences</h2>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <strong>Outils Digitaux & Tech</strong>
+                <ul>
+                    <li>Canva, Excel, Microsoft Word, PowerPoint</li>
+                    <li>HTML (Bases)</li>
+                    <li>Gantt Project (Planification)</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <strong>Compétences Transversales</strong>
+                <ul>
+                    <li>Organisation & Rigueur</li>
+                    <li>Capacité d'Analyse</li>
+                    <li>Travail en équipe</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <strong>Langues</strong>
+                <ul>
+                    <li>Arabe : Maternelle</li>
+                    <li>Français : Intermédiaire</li>
+                    <li>Anglais : Débutante</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="projets">
+        <h2>Projets & Intérêts</h2>
+        <ul>
+            <li><strong>Mini projet Data & BI :</strong> Analyse et visualisation de données.</li>
+            <li><strong>Projet Marketing :</strong> Développement de stratégies digitales.</li>
+            <li><strong>Centres d'intérêt :</strong> Marketing, E-commerce.</li>
+        </ul>
+    </section>
+
+    <section class="online-presence">
+        <h2>Présence en ligne</h2>
+        <a href="https://github.com/selma-machi/-cv--portfolio/" target="_blank">GitHub</a>
+        <a href="https://selma-machi.github.io/cv-portfolio/" target="_blank">Portfolio (GitHub Pages)</a>
+        <a href="https://www.kaggle.com/machisalma" target="_blank">Kaggle</a>
+    </section>
+</div>
 
 </body>
 </html>
+              
