@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -54,4 +55,121 @@
         .badge {
             display: inline-block; padding: 6px 14px;
             background: var(--accent); color: white;
-            border-radius: 20px; margin: 4px; font-
+            border-radius: 20px; margin: 4px; font-size: 0.9em;
+        }
+    </style>
+</head>
+<body data-theme="light">
+
+    <canvas id="canvas-bg"></canvas>
+
+    <div class="ui-controls">
+        <select id="langPicker">
+            <option value="fr">Français</option>
+            <option value="en">English</option>
+            <option value="ar">العربية</option>
+        </select>
+        <button id="themeBtn">🌓 Mode</button>
+    </div>
+
+    <div class="cv-container" id="main-content">
+        </div>
+
+    <script>
+        // 1. BASE DE DONNÉES JSON
+        const data = {
+            fr: {
+                dir: "ltr",
+                name: "Salma Machi",
+                title: "Étudiante en Marketing Digital et Commercial",
+                profile: "Étudiante motivée à Casablanca, passionnée par l'e-commerce et l'analyse de données[cite: 90, 92, 93].",
+                edu: "Formation : DUT en Marketing Digital (EST Salé).",
+                exp: "Expérience : Stagiaire en Comptabilité chez CM3 (Casablanca).",
+                skills: ["Marketing Digital", "Canva", "Excel", "HTML", "Gantt Project"],
+                labels: { bio: "Profil", path: "Parcours", tools: "Compétences" }
+            },
+            en: {
+                dir: "ltr",
+                name: "Salma Machi",
+                title: "Digital Marketing & Sales Student",
+                profile: "Motivated student in Casablanca, passionate about e-commerce and data analysis[cite: 90, 92, 93].",
+                edu: "Education: Digital Marketing Degree (EST Salé).",
+                exp: "Experience: Accounting Intern at CM3 (Casablanca).",
+                skills: ["Digital Marketing", "Canva", "Excel", "HTML", "Gantt Project"],
+                labels: { bio: "Profile", path: "Experience", tools: "Skills" }
+            },
+            ar: {
+                dir: "rtl",
+                name: "سلمى ماشي",
+                title: "طالبة في التسويق الرقمي والتجاري",
+                profile: "طالبة طموحة في الدار البيضاء، شغوفة بالتجارة الإلكترونية وتحليل البيانات[cite: 90, 92, 93].",
+                edu: "التكوين: دبلوم في التسويق الرقمي (EST سلا).",
+                exp: "الخبرة: تدريب في المحاسبة بشركة CM3 (الدار البيضاء).",
+                skills: ["التسويق الرقمي", "كانفا", "إكسل", "HTML", "مشروع غانت"],
+                labels: { bio: "الملف الشخصي", path: "المسار", tools: "المهارات" }
+            }
+        };
+
+        // 2. FONCTION DE MISE À JOUR DU CONTENU
+        const main = document.getElementById('main-content');
+        function updateUI(lang) {
+            const d = data[lang];
+            document.body.className = d.dir;
+            main.className = `cv-container ${d.dir === 'rtl' ? 'rtl' : ''}`;
+            main.innerHTML = `
+                <h1>${d.name}</h1>
+                <div class="tagline">${d.title}</div>
+                <h2>${d.labels.bio}</h2>
+                <p>${d.profile}</p>
+                <h2>${d.labels.path}</h2>
+                <p><strong>${d.edu}</strong></p>
+                <p>${d.exp}</p>
+                <h2>${d.labels.tools}</h2>
+                <div>${d.skills.map(s => `<span class="badge">${s}</span>`).join('')}</div>
+            `;
+        }
+
+        // 3. ANIMATION THREE.JS (GAMIFICATION)
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas-bg'), antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        const geometry = new THREE.IcosahedronGeometry(10, 1);
+        const material = new THREE.MeshStandardMaterial({ color: 0x3498db, wireframe: true });
+        const sphere = new THREE.Mesh(geometry, material);
+        scene.add(sphere);
+
+        const light = new THREE.PointLight(0xffffff, 1);
+        light.position.set(10, 10, 10);
+        scene.add(light);
+        camera.position.z = 25;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            sphere.rotation.y += 0.005;
+            sphere.rotation.x += 0.002;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // 4. ÉVÉNEMENTS
+        document.getElementById('langPicker').onchange = (e) => updateUI(e.target.value);
+        document.getElementById('themeBtn').onclick = () => {
+            const body = document.body;
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            material.color.set(isDark ? 0x3498db : 0x00d2ff);
+        };
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Lancement initial
+        updateUI('fr');
+    </script>
+</body>
+</html>
